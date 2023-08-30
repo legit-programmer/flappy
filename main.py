@@ -52,9 +52,11 @@ class Bird:
 class Pipe:
     def __init__(self, bird:Bird) -> None:
         self.sprite = pygame.image.load('assets/pipe.png')
+        self.height = self.sprite.get_height()
+        self.width = self.sprite.get_width()
         self.x = 0
-        self.y = 0
-        self.x_vel = 2
+        self.y = 500
+        self.x_vel = -2
         self.bird = bird
 
     def draw(self):
@@ -62,11 +64,15 @@ class Pipe:
 
     def checkCollision(self):
         bird = self.bird
-        if bird.x + bird.width>self.x:
-            print('hello')
+        if bird.x + bird.width>self.x and bird.x<self.x+self.width:
+            if bird.y < self.y+self.height and self.y<bird.y+bird.height:
+                print('collided')
+            # if bird.x<
+            
 
 flappyBird = Bird()
 pipe = Pipe(bird=flappyBird)
+
 while running:
     
     win.fill("white")
@@ -74,8 +80,8 @@ while running:
     pipe.draw()
 
     if not flappyBird.flying:
-        flappyBird.applyGravity()
-        flappyBird.checkCollision()
+        # flappyBird.applyGravity()
+        # flappyBird.checkCollision()
         pipe.checkCollision()
 
     for event in pygame.event.get():
@@ -87,8 +93,14 @@ while running:
                 flappyBird.fly()
 
     keys = pygame.key.get_pressed()
-    # if keys[pygame.K_SPACE]:
-    #     flappyBird.fly()
+    if keys[pygame.K_w]:
+        flappyBird.y-=5
+    if keys[pygame.K_a]:
+        flappyBird.x-=5
+    if keys[pygame.K_s]:
+        flappyBird.y+=5
+    if keys[pygame.K_d]:
+        flappyBird.x+=5
     keys = pygame.key.get_pressed()
     
     
