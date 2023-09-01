@@ -1,7 +1,7 @@
 
 import pygame
 import bird
-from pipe import Pipe
+from pipe import Pipe, handlePipes
 
 # pygame setup
 pygame.init()
@@ -14,21 +14,25 @@ clock = pygame.time.Clock()
 running = True
 
 
+
             
             
 
 flappyBird = bird.Bird(WIDTH, HEIGHT, ACCELERATION, TIME_STEP, win)
-pipe = Pipe(bird=flappyBird, win=win)
+initP1 = Pipe(bird=flappyBird, win=win)
+initP2 = Pipe(bird=flappyBird, win=win)
+initP2.y = initP1.y + HEIGHT + initP1.offset
+pipes = [(initP1, initP2)]
 
 while running:
     
     win.fill("white")
     flappyBird.draw()
-    pipe.draw()
+    handlePipes(pipes, flappyBird, win)
 
     flappyBird.applyGravity()
     flappyBird.checkCollision()
-    pipe.checkCollision()
+    
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -37,6 +41,8 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 flappyBird.fly()
+            
+                
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
