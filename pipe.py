@@ -11,8 +11,7 @@ class Pipe:
         self.x_vel = -2
         self.bird = bird
         self.win = win
-        self.range_y = (-700, -200)
-        self.offset = 120
+        self.offset = 300
 
     def draw(self):
         self.win.blit(self.sprite, (self.x, self.y))
@@ -31,9 +30,9 @@ class Pipe:
 def generatePipe(bird:bird.Bird, pipes:list, win):
     pipe1 = Pipe(bird, win)
     pipe2 = Pipe(bird, win)
-    pipe1.x = 1280+300
-    pipe1.y = random.randrange(-700, -60)
-    pipe2.x = 1280+300
+    pipe1.x = 1280+200
+    pipe1.y = random.randrange(-700, -400)
+    pipe2.x = 1280+200
     pipe2.y = pipe1.y + 720 + pipe2.offset
     pipes.append((pipe1, pipe2))
 
@@ -41,8 +40,12 @@ def handlePipes(pipes:list, bird:bird.Bird, win):
     for pipe in pipes:
         pipe[0].draw()
         pipe[1].draw()
-        
+        pipe[0].checkCollision()
+        pipe[1].checkCollision()
         if pipe[0].x == 1278:
             print('sdfdsf')
             generatePipe(bird, pipes, win)
-            
+        
+        if pipe[0].x<-500:
+            pipes.pop(0)
+            print('pipe deleted')
