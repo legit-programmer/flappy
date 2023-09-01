@@ -8,7 +8,7 @@ class Pipe:
         self.width = self.sprite.get_width()
         self.x = 1280
         self.y = -500
-        self.x_vel = -2
+        self.x_vel = -4
         self.bird = bird
         self.win = win
         self.offset = 300
@@ -42,7 +42,7 @@ def handlePipes(pipes:list, bird:bird.Bird, win):
         pipe[1].draw()
         pipe[0].checkCollision()
         pipe[1].checkCollision()
-        if pipe[0].x == 1278:
+        if pipe[0].x == 1276:
             print('sdfdsf')
             generatePipe(bird, pipes, win)
         
