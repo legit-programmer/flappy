@@ -21,7 +21,7 @@ class Pipe:
         bird = self.bird
         if bird.x + bird.width>self.x and bird.x<self.x+self.width:
             if bird.y < self.y+self.height and self.y<bird.y+bird.height:
-                print('collided')
+                print('[FLAPPY CORE] Collision detected...')
                 bird.collided = True
 
     def moveLeft(self):
@@ -43,9 +43,9 @@ def handlePipes(pipes:list, bird:bird.Bird, win):
         pipe[0].checkCollision()
         pipe[1].checkCollision()
         if pipe[0].x == 1276:
-            print('sdfdsf')
             generatePipe(bird, pipes, win)
         
         if pipe[0].x<-500:
+            
             pipes.pop(0)
-            print('pipe deleted')
+            print(f'[FLAPPY CORE] Pipe instance at {id(pipe)} deleted...')
