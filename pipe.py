@@ -48,4 +48,4 @@ def handlePipes(pipes:list, bird:bird.Bird, win):
         if pipe[0].x<-500:
             
             pipes.pop(0)
-            print(f'[FLAPPY CORE] Pipe instance at {id(pipe)} deleted...')
+            print(f'[FLAPPY CORE] Pipe instance at {hex(id(pipe))} deleted...')
