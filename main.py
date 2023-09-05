@@ -8,7 +8,7 @@ pygame.init()
 
 WIDTH = 1280
 HEIGHT = 720
-ACCELERATION = 5
+ACCELERATION = 7
 TIME_STEP = 0.3
 win = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -47,7 +47,8 @@ while running:
         
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                flappyBird.fly()
+                if not flappyBird.collided:
+                    flappyBird.fly()
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:

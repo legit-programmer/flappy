@@ -14,13 +14,14 @@ class Bird:
         self.TIME_STEP = TIME_STEP
         self.win = win
         self.collided = False
+        self.vel_x = 0
         
 
     def applyGravity(self):
         if not self.collided:
             self.vel+= self.ACCELERATION * self.TIME_STEP
             self.y += self.vel * self.TIME_STEP
-    
+            self.x -=self.vel_x
     def resetPosition(self):
         self.x = self.WIN_WIDTH/2-self.width/2
         self.y = self.WIN_HEIGHT/2-self.height/2
@@ -29,6 +30,8 @@ class Bird:
         if not self.y+self.height<=self.WIN_HEIGHT:
             self.vel = -(self.vel)
             self.collided = True
+            self.y = self.WIN_HEIGHT-self.height
+            self.vel_x = 0
         
     def draw(self):
         self.win.blit(self.sprite, (self.x, self.y))

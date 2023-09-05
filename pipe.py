@@ -22,7 +22,8 @@ class Pipe:
         if bird.x + bird.width>self.x and bird.x<self.x+self.width:
             if bird.y < self.y+self.height and self.y<bird.y+bird.height:
                 print('[FLAPPY CORE] Collision detected...')
-                bird.collided = True
+                bird.vel=-bird.vel
+                bird.vel_x=5
 
     def moveLeft(self):
         self.x+=self.x_vel
