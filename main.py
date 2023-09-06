@@ -17,9 +17,10 @@ BACKGROUND = pygame.image.load('assets/bg.png')
 flappyBird = bird.Bird(WIDTH, HEIGHT, ACCELERATION, TIME_STEP, win)
 initP1 = Pipe(bird=flappyBird, win=win)
 initP2 = Pipe(bird=flappyBird, win=win)
-initP2.y = initP1.y + HEIGHT + initP1.offset
+initP2.y = initP1.y + HEIGHT + initP1.y_offset
 pipes = [(initP1, initP2)]
-x1, y1 = (0, 0)
+
+x1, y1 = (0, 0) # for background
 x2, y2 = (1280, 0)
 
 def showBackground():
@@ -32,6 +33,7 @@ def showBackground():
     win.blit(BACKGROUND, (x2, y2))
     x1-=1
     x2-=1
+    
 while running:
     showBackground()
     flappyBird.draw()
