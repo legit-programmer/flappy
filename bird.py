@@ -1,5 +1,5 @@
 import pygame
-
+import math
 class Bird:
     def __init__(self, WIDTH, HEIGHT, ACCELERATION, TIME_STEP, win) -> None:
         self.sprite = pygame.transform.scale(pygame.image.load('assets/bird.png'), (32, 32))
@@ -15,6 +15,10 @@ class Bird:
         self.win = win
         self.collided = False
         self.vel_x = 0
+        self.follow = False
+        self.pos:tuple
+        self.originX:int
+        self.originY:int
         
 
     def applyGravity(self):
@@ -38,3 +42,31 @@ class Bird:
 
     def fly(self):
         self.vel = -(self.vel + 100) * self.TIME_STEP
+
+    def setupVector(self, pos):
+        mouse_x, mouse_y = self.pos = pos 
+        self.originX, self.originY = self.x, self.y
+        dx = self.x - mouse_x
+        dy = self.y - mouse_y
+        d = math.sqrt(dx**2 + dy**2)
+        self.ux = dx/d
+        self.uy = dy/d
+        
+
+    def followDirection(self): # utility funtion
+        
+        #pos[0] = mouseX pos[1] = mouseY
+        if not (math.floor(self.x) in range(self.pos[0]-10, self.pos[0]+10) and math.floor(self.y) in range(self.pos[1]-10, self.pos[1]+10)):
+            pygame.draw.line(self.win, (0, 0, 0), (self.originX, self.originY), (self.pos[0], self.pos[1]), 3)
+            pygame.draw.line(self.win, (0, 0, 0), (self.originX, self.originY), (self.pos[0], self.originY), 3)
+            pygame.draw.line(self.win, (0, 0, 0), (self.pos[0], self.originY), (self.pos[0], self.pos[1]), 3)
+            self.x-=self.ux * 5
+            self.y-=self.uy * 5
+        
+        else:
+            self.follow = False
+        
+        print('[FLAPPY CORE]Following...')
+
+    
+        
