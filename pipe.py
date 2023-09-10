@@ -68,6 +68,7 @@ def handlePipes(pipes: list, bird: bird.Bird, win: pygame.Surface):
             generateFirstPipe(bird, pipes, win)
             bird.collided = False
             bird.score = 0
+            bird.isPlaying = False
             
         if not bird.collided:
             checkPass(bird, pipes)

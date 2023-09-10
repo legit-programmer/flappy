@@ -19,7 +19,6 @@ flappyBird = bird.Bird(WIDTH, HEIGHT, ACCELERATION, TIME_STEP, win)
 pipes = []
 
 
-
 generateFirstPipe(bird=flappyBird, pipes=pipes, win=win)
 
 x1, y1 = (0, 0)  # for background
@@ -37,9 +36,11 @@ def showBackground():
     x1 -= 1
     x2 -= 1
 
+
 def drawScore():
     text = FONT.render(f'Score - {flappyBird.score}', True, (255, 255, 255))
     win.blit(text, (50, 50))
+
 
 mx, my = (0, 0)
 
@@ -47,10 +48,16 @@ while running:
 
     showBackground()
     flappyBird.draw()
-    handlePipes(pipes, flappyBird, win)
-    flappyBird.applyGravity()
-    flappyBird.checkCollision()
     drawScore()
+    
+
+    if flappyBird.isPlaying:
+        handlePipes(pipes, flappyBird, win)
+        flappyBird.applyGravity()
+    else:
+        pipes.clear()
+        generateFirstPipe(flappyBird, pipes, win)
+        win.blit(FONT.render('Press enter...', True,(255, 255, 255)), (flappyBird.x-75, flappyBird.y + 100))
 
     if flappyBird.follow:
         flappyBird.followDirection()
@@ -63,6 +70,10 @@ while running:
             if event.key == pygame.K_SPACE:
                 if not flappyBird.collided:
                     flappyBird.fly()
+
+            if event.key== pygame.K_RETURN:
+                flappyBird.isPlaying = not flappyBird.isPlaying
+                flappyBird.fly()
         # if event.type == pygame.MOUSEBUTTONDOWN:
         #     mx, my = pygame.mouse.get_pos()
         #     flappyBird.setupVector((mx, my))

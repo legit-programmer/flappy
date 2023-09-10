@@ -20,6 +20,7 @@ class Bird:
         self.originX:int
         self.originY:int
         self.score = 0
+        self.isPlaying = False
         
 
     def applyGravity(self):
@@ -34,10 +35,10 @@ class Bird:
 
     def checkCollision(self):
         if not self.y+self.height<=self.WIN_HEIGHT:
-            self.vel = -(self.vel)
-            self.collided = True
-            self.y = self.WIN_HEIGHT-self.height
-            self.vel_x = 0
+            self.resetPosition()
+            return True
+            
+            
         
     def draw(self):
         self.win.blit(self.sprite, (self.x, self.y))
