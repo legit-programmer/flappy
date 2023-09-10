@@ -27,7 +27,7 @@ class Bird:
             self.vel+= self.ACCELERATION * self.TIME_STEP
             self.y += self.vel * self.TIME_STEP
             self.x -=self.vel_x
-            
+
     def resetPosition(self):
         self.x = self.WIN_WIDTH/2-self.width/2
         self.y = self.WIN_HEIGHT/2-self.height/2
@@ -51,6 +51,8 @@ class Bird:
         dx = self.x - mouse_x
         dy = self.y - mouse_y
         d = math.sqrt(dx**2 + dy**2)
+
+        # unit vectors
         self.ux = dx/d
         self.uy = dy/d
         

@@ -44,13 +44,14 @@ def drawScore():
 mx, my = (0, 0)
 
 while running:
+
     showBackground()
     flappyBird.draw()
     handlePipes(pipes, flappyBird, win)
-
     flappyBird.applyGravity()
     flappyBird.checkCollision()
     drawScore()
+
     if flappyBird.follow:
         flappyBird.followDirection()
 
@@ -62,10 +63,10 @@ while running:
             if event.key == pygame.K_SPACE:
                 if not flappyBird.collided:
                     flappyBird.fly()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mx, my = pygame.mouse.get_pos()
-            flappyBird.setupVector((mx, my))
-            flappyBird.follow = True
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+        #     mx, my = pygame.mouse.get_pos()
+        #     flappyBird.setupVector((mx, my))
+        #     flappyBird.follow = True
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
