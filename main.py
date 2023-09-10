@@ -1,7 +1,7 @@
 
 import pygame
 import bird
-from pipe import Pipe, handlePipes
+from pipe import Pipe, handlePipes, generateFirstPipe
 
 # pygame setup
 pygame.init()
@@ -10,15 +10,17 @@ WIDTH = 1280
 HEIGHT = 720
 ACCELERATION = 7
 TIME_STEP = 0.3
+FONT = pygame.font.Font('freesansbold.ttf', 32)
 win = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 running = True
 BACKGROUND = pygame.image.load('assets/bg.png')
 flappyBird = bird.Bird(WIDTH, HEIGHT, ACCELERATION, TIME_STEP, win)
-initP1 = Pipe(bird=flappyBird, win=win)
-initP2 = Pipe(bird=flappyBird, win=win)
-initP2.y = initP1.y + HEIGHT + initP1.y_offset
-pipes = [(initP1, initP2)]
+pipes = []
+
+
+
+generateFirstPipe(bird=flappyBird, pipes=pipes, win=win)
 
 x1, y1 = (0, 0)  # for background
 x2, y2 = (1280, 0)
@@ -35,6 +37,9 @@ def showBackground():
     x1 -= 1
     x2 -= 1
 
+def drawScore():
+    text = FONT.render(f'Score - {flappyBird.score}', True, (255, 255, 255))
+    win.blit(text, (50, 50))
 
 mx, my = (0, 0)
 
@@ -45,8 +50,9 @@ while running:
 
     flappyBird.applyGravity()
     flappyBird.checkCollision()
-    # if flappyBird.follow:
-    #     flappyBird.followDirection()
+    drawScore()
+    if flappyBird.follow:
+        flappyBird.followDirection()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -56,10 +62,10 @@ while running:
             if event.key == pygame.K_SPACE:
                 if not flappyBird.collided:
                     flappyBird.fly()
-        # if event.type == pygame.MOUSEBUTTONDOWN:
-        #     mx, my = pygame.mouse.get_pos()
-        #     flappyBird.setupVector((mx, my))
-        #     flappyBird.follow = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mx, my = pygame.mouse.get_pos()
+            flappyBird.setupVector((mx, my))
+            flappyBird.follow = True
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:

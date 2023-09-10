@@ -15,6 +15,7 @@ class Pipe:
         self.win = win
         self.y_offset = 300
         self.x_offset = 400
+        self.passed = False
 
     def draw(self):
         self.win.blit(self.sprite, (self.x, self.y))
@@ -25,12 +26,26 @@ class Pipe:
         if bird.x + bird.width > self.x and bird.x < self.x+self.width:
             if bird.y < self.y+self.height and self.y < bird.y+bird.height:
                 print('[FLAPPY CORE] Collision detected...')
-                bird.vel = -bird.vel
-                bird.vel_x = 5
-
+                bird.collided = True
+                bird.resetPosition()
+                return True
+            
     def moveLeft(self):
         self.x += self.x_vel
 
+def generateFirstPipe(bird, pipes:list, win):
+    initP1 = Pipe(bird=bird, win=win)
+    initP2 = Pipe(bird=bird, win=win)
+    initP2.y = initP1.y + initP1.height + initP1.y_offset
+    pipes.append((initP1, initP2))
+
+def checkPass(bird:bird.Bird, pipes:list):
+    for pipe in pipes:
+        if not pipe[0].passed:
+            if pipe[0].x + pipe[0].width< bird.x:
+                pipe[0].passed = True
+                bird.score+=1
+                print(bird.score)
 
 def generatePipe(bird: bird.Bird, pipes: list, win: pygame.Surface):
     pipe1 = Pipe(bird, win)
@@ -45,8 +60,17 @@ def handlePipes(pipes: list, bird: bird.Bird, win: pygame.Surface):
     for pipe in pipes:
         pipe[0].draw()
         pipe[1].draw()
-        pipe[0].checkCollision()
-        pipe[1].checkCollision()
+
+
+        # reseting pipe status
+        if pipe[0].checkCollision() or pipe[1].checkCollision():
+            pipes.clear()
+            generateFirstPipe(bird, pipes, win)
+            bird.collided = False
+            bird.score = 0
+            
+        if not bird.collided:
+            checkPass(bird, pipes)
         
         # adding x_vel because its already a negative value
         if pipe[0].x == win.get_width()+pipe[0].x_vel:
